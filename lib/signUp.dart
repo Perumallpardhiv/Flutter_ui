@@ -2,19 +2,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sign_in/auth.dart';
-import 'package:sign_in/customPageRoute.dart';
-import 'package:sign_in/signUp.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:sign_in/auth.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   firebase_auth.FirebaseAuth firebaseAuth = firebase_auth.FirebaseAuth.instance;
   AuthClass authClass = AuthClass();
   TextEditingController _emailCont = TextEditingController();
@@ -191,7 +189,7 @@ class _SignInState extends State<SignIn> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Sign in",
+                                  "Create New Account",
                                   style: GoogleFonts.tajawal(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -204,10 +202,11 @@ class _SignInState extends State<SignIn> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "New user?",
+                                      "Already have an account?",
                                       style: GoogleFonts.rubik(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w600,
+                                        fontSize: 12,
                                       ),
                                     ),
                                     const SizedBox(
@@ -215,17 +214,14 @@ class _SignInState extends State<SignIn> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.of(context).push(
-                                          CustomPageRoute(
-                                            child: SignUp(),
-                                          ),
-                                        );
+                                        Navigator.pop(context);
                                       },
                                       child: Text(
-                                        "Create an account",
+                                        "Sign In",
                                         style: GoogleFonts.rubik(
                                           fontWeight: FontWeight.w500,
                                           color: Color(0xff58DEAA),
+                                          fontSize: 14,
                                         ),
                                       ),
                                     ),
@@ -234,7 +230,6 @@ class _SignInState extends State<SignIn> {
                                 const SizedBox(height: 15),
                                 TextField(
                                   controller: _emailCont,
-                                  keyboardType: TextInputType.emailAddress,
                                   style: GoogleFonts.merriweather(
                                     fontSize: 20,
                                   ),
@@ -272,7 +267,6 @@ class _SignInState extends State<SignIn> {
                                 TextField(
                                   controller: _pwdCont,
                                   style: GoogleFonts.merriweather(
-                                    color: Colors.grey[600],
                                     fontSize: 20,
                                   ),
                                   decoration: InputDecoration(
@@ -316,16 +310,15 @@ class _SignInState extends State<SignIn> {
                                     BorderRadius.all(Radius.circular(30)),
                               ),
                               onPressed: () async {
-                                await authClass.emailSignIn(
-                                  context,
-                                  _emailCont.text.trim(),
-                                  _pwdCont.text.trim(),
-                                );
+                                await authClass.emailSignUp(
+                                    context,
+                                    _emailCont.text.trim(),
+                                    _pwdCont.text.trim());
                               },
                               child: const Padding(
                                 padding: EdgeInsets.all(5.0),
                                 child: Text(
-                                  "Continue",
+                                  "Sign Up",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w400,
@@ -385,8 +378,8 @@ class _SignInState extends State<SignIn> {
                               onPressed: () {},
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Text(
+                                children: [
+                                  const Text(
                                     "Continue with Google",
                                     style: TextStyle(
                                       color: Color(0xff48C6F3),
